@@ -1,8 +1,5 @@
 using FluentAssertions;
 using Bau.Libraries.LibJobProcessor.Manager;
-using Bau.Libraries.LibJobProcessor.Manager.Models;
-
-using Microsoft.Extensions.Logging;
 
 namespace EtlJobs.Test;
 
@@ -23,6 +20,8 @@ public class Rest_should : IClassFixture<Infrastructure.TestsFixture>
 			// Procesa el proyecto
 			await manager.ProcessAsync(CancellationToken.None);
 			// Comprueba si ha habido errores
+			if (manager.HasError)
+				_fixture.ShowErrors(manager.Errors);
 			manager.HasError.Should().BeFalse();
 	}
 }

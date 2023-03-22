@@ -12,18 +12,22 @@ namespace Bau.Libraries.LibJobProcessor.Rest.Repository;
 internal class JobRestRepository : BaseJobRepository
 {
 	// Constantes privadas
+	private const string TagTarget = "Target";
 	private const string TagEnabled = "Enabled";
 	private const string TagCallApiSentence = "CallApi";
-	private const string TagUrl = "Url";
-	private const string TagUser = "User";
-	private const string TagPassword = "Password";
-	private const string TagMethod = "Method";
-	private const string TagType = "Type";
 	private const string TagEndPoint = "EndPoint";
+	private const string TagMethod = "Method";
 	private const string TagBody = "Body";
-	private const string TagResult = "Result";
+	private const string TagWhenResult = "WhenResult";
 	private const string TagFrom = "From";
 	private const string TagTo = "To";
+	private const string TagElse = "Else";
+	private const string TagHeader = "Header";
+	private const string TagName = "Name";
+	private const string TagValue = "Value";
+	private const string TagAssign = "Assign";
+	private const string TagType = "Type";
+	private const string TagVariable = "Variable";
 
 	public JobRestRepository(IProgramRepository programRepository) : base(programRepository)
 	{
@@ -36,49 +40,61 @@ internal class JobRestRepository : BaseJobRepository
 	{
 		return rootML.Name switch
 					{
-						TagCallApiSentence => LoadApiDefinitionSentence(rootML),
+						TagCallApiSentence => LoadCallApi(rootML),
 						_ => null
 					};
 	}
 
 	/// <summary>
-	///		Carga una sentencia de deifinición de API
-	/// </summary>
-	private RestBaseSentence LoadApiDefinitionSentence(MLNode rootML)
-	{
-		CallApiSentence sentence = new CallApiSentence();
-
-			// Asigna las propiedades
-			AssignDefaultProperties(sentence, rootML);
-			sentence.Url = rootML.Attributes[TagUrl].Value.TrimIgnoreNull();
-			sentence.User = rootML.Attributes[TagUser].Value.TrimIgnoreNull();
-			sentence.Password = rootML.Attributes[TagPassword].Value.TrimIgnoreNull();
-			// Obtiene los métodos
-			foreach (MLNode nodeML in rootML.Nodes)
-				if (nodeML.Name == TagMethod)
-					sentence.Methods.Add(LoadMethod(nodeML));
-			// Devuelve la sentencia
-			return sentence;
-	}
-
-	/// <summary>
 	///		Carga los datos de un método
 	/// </summary>
-	private CallApiMethodSentence LoadMethod(MLNode rootML)
+	private CallApiSentence LoadCallApi(MLNode rootML)
 	{
-		CallApiMethodSentence sentence = new CallApiMethodSentence();
+		CallApiSentence sentence = new(rootML.Attributes[TagTarget].Value.TrimIgnoreNull(),
+									   rootML.Attributes[TagEndPoint].Value.TrimIgnoreNull(),
+									   rootML.Attributes[TagMethod].Value.GetEnum(CallApiSentence.MethodType.Unkwnown));
 
 			// Asigna las propiedades
 			AssignDefaultProperties(sentence, rootML);
-			sentence.EndPoint = rootML.Attributes[TagEndPoint].Value.TrimIgnoreNull();
-			sentence.Method = rootML.Attributes[TagType].Value.GetEnum(CallApiMethodSentence.MethodType.Unkwnown);
-			sentence.Body = rootML.Nodes[TagBody].Value.TrimIgnoreNull();
-			// Obtiene los resultados
+			// Obtiene los posibles resultados
 			foreach (MLNode nodeML in rootML.Nodes)
-				if (nodeML.Name == TagResult)
-					sentence.Results.Add(LoadResult(nodeML));
+				switch (nodeML.Name)
+				{
+					case TagHeader:
+							sentence.Headers.Add(nodeML.Attributes[TagName].Value.TrimIgnoreNull(), GetHeaderValue(nodeML));							
+						break;
+					case TagAssign:
+							sentence.Assignments.Add(new CallApiAssignmentSentence(nodeML.Attributes[TagName].Value.TrimIgnoreNull(),
+																				   nodeML.Attributes[TagType].Value.GetEnum(CallApiAssignmentSentence.ContentType.Body),
+																				   nodeML.Attributes[TagVariable].Value.TrimIgnoreNull()));
+						break;
+					case TagBody:
+							sentence.Body = nodeML.Value.TrimIgnoreNull();
+						break;
+					case TagWhenResult:
+							sentence.WhenResults.Add(LoadResult(nodeML));
+						break;
+					case TagElse:
+							sentence.Else.AddRange(LoadSentences(nodeML.Nodes));
+						break;
+				}
+			// Si no hay nada en los resultados ni en el else, recoge las sentencias del cuerpo en el else
+			if (sentence.WhenResults.Count == 0 && sentence.Else.Count == 0)
+				sentence.Else.AddRange(LoadSentences(rootML.Nodes, TagBody, TagHeader, TagAssign));
 			// Devuelve la sentencia
 			return sentence;
+
+			// Obtiene el valor de la cabecera (del atributo o del valor)
+			string GetHeaderValue(MLNode rootML)
+			{
+				string value = rootML.Attributes[TagValue].Value.TrimIgnoreNull();
+
+					// Obtiene el valor del nodo
+					if (string.IsNullOrWhiteSpace(value))
+						value = rootML.Value.TrimIgnoreNull();
+					// Devuelve el valor
+					return value;
+			}
 	}
 
 	/// <summary>
@@ -86,11 +102,9 @@ internal class JobRestRepository : BaseJobRepository
 	/// </summary>
 	private CallApiResultSentence LoadResult(MLNode rootML)
 	{
-		CallApiResultSentence sentence = new CallApiResultSentence();
+		CallApiResultSentence sentence = new(rootML.Attributes[TagFrom].Value.GetInt(0),
+											 rootML.Attributes[TagTo].Value.GetInt(0));
 
-			// Obtiene los resultados
-			sentence.ResultFrom = rootML.Attributes[TagFrom].Value.GetInt(0);
-			sentence.ResultTo = rootML.Attributes[TagTo].Value.GetInt(0);
 			// Carga las sentencias
 			sentence.Sentences.AddRange(ProgramRepository.LoadSentences(rootML.Nodes));
 			// Devuelve la sentencia
@@ -100,7 +114,7 @@ internal class JobRestRepository : BaseJobRepository
 	/// <summary>
 	///		Asigna los datos básicos de una sentencia
 	/// </summary>
-	private void AssignDefaultProperties(RestBaseSentence sentence, MLNode rootML)
+	private void AssignDefaultProperties(BaseRestSentence sentence, MLNode rootML)
 	{
 		sentence.Enabled = rootML.Attributes[TagEnabled].Value.GetBool(true);
 		sentence.Timeout = ProgramRepository.GetTimeout(rootML, TimeSpan.FromMinutes(5));

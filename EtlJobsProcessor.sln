@@ -87,9 +87,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibJobProcessor.Rest", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibJobProcessor.Powershell", "src\Libraries\Processors\LibJobProcessor.Powershell\LibJobProcessor.Powershell.csproj", "{A3B8EEA8-7D17-4C14-9C0D-2A54C0E4A00F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibHttpClient", "..\..\..\Libraries\Communications\LibHttpClient\LibHttpClient.csproj", "{4C64A6C9-6B91-4350-BB36-C1687AC06148}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibBlobStorage", "..\..\..\Libraries\Cloud\LibCloudStorage\src\LibBlobStorage\LibBlobStorage.csproj", "{F53D1818-8DFC-49E6-813F-B6FF902F5930}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communications", "Communications", "{D4FEC4A7-6A6D-4A40-9C6A-6C6253ADBB12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibRestClient", "..\..\..\Libraries\Communications\LibRestClient\LibRestClient.csproj", "{05F7D65D-CB26-4CAE-B56D-1818EA918116}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -225,14 +227,14 @@ Global
 		{A3B8EEA8-7D17-4C14-9C0D-2A54C0E4A00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3B8EEA8-7D17-4C14-9C0D-2A54C0E4A00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3B8EEA8-7D17-4C14-9C0D-2A54C0E4A00F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C64A6C9-6B91-4350-BB36-C1687AC06148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C64A6C9-6B91-4350-BB36-C1687AC06148}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C64A6C9-6B91-4350-BB36-C1687AC06148}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C64A6C9-6B91-4350-BB36-C1687AC06148}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F53D1818-8DFC-49E6-813F-B6FF902F5930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F53D1818-8DFC-49E6-813F-B6FF902F5930}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F53D1818-8DFC-49E6-813F-B6FF902F5930}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F53D1818-8DFC-49E6-813F-B6FF902F5930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05F7D65D-CB26-4CAE-B56D-1818EA918116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F7D65D-CB26-4CAE-B56D-1818EA918116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F7D65D-CB26-4CAE-B56D-1818EA918116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F7D65D-CB26-4CAE-B56D-1818EA918116}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -276,8 +278,9 @@ Global
 		{6D103C6C-255E-488D-8A49-72E5BBEAB2A1} = {06C795FC-B9FD-461B-82C3-D9E20A9F8585}
 		{1C0AA6AE-B2F8-4DB9-B8A0-7396D915EC11} = {06C795FC-B9FD-461B-82C3-D9E20A9F8585}
 		{A3B8EEA8-7D17-4C14-9C0D-2A54C0E4A00F} = {06C795FC-B9FD-461B-82C3-D9E20A9F8585}
-		{4C64A6C9-6B91-4350-BB36-C1687AC06148} = {6D24DC22-BD34-4A8A-BB20-4EDE006B8D47}
 		{F53D1818-8DFC-49E6-813F-B6FF902F5930} = {4CBD4CAE-F9DC-4D58-9072-58D8A26A76A0}
+		{D4FEC4A7-6A6D-4A40-9C6A-6C6253ADBB12} = {2FD1909C-75EB-4FE2-8C95-FF57B84982BC}
+		{05F7D65D-CB26-4CAE-B56D-1818EA918116} = {D4FEC4A7-6A6D-4A40-9C6A-6C6253ADBB12}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98260DBF-BA5B-4B36-9CF0-76669410B300}

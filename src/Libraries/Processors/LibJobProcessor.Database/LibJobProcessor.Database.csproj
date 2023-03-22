@@ -31,6 +31,7 @@
     <Compile Remove="Models\Sentences\Parameters\ProviderCommandModel.cs" />
     <Compile Remove="Models\Sentences\ProgramModel.cs" />
     <Compile Remove="Models\Sentences\SentenceCopy.cs" />
+    <Compile Remove="Models\StorageConnectionModel.cs" />
   </ItemGroup>
 
   <ItemGroup>

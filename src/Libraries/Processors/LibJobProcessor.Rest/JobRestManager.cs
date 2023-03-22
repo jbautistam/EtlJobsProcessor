@@ -12,24 +12,15 @@ public class JobRestManager : IJobProcessor
 	/// <summary>
 	///		Obtiene el procesador
 	/// </summary>
-	public IProcessorRepository GetRepository(IProgramRepository programRepository)
-	{
-		return new Repository.JobRestRepository(programRepository);
-	}
+	public IProcessorRepository GetRepository(IProgramRepository programRepository) => new Repository.JobRestRepository(programRepository);
 
 	/// <summary>
 	///		Obtiene el repositorio para los contextos
 	/// </summary>
-	public IContextRepository GetContextRepository()
-	{
-		return new Repository.JobContextRepository();
-	}
+	public IContextRepository GetContextRepository() => new Repository.JobContextRepository();
 
 	/// <summary>
 	///		Obtiene el intérprete
 	/// </summary>
-	public IJobSentenceIntepreter GetInterpreter(IProgramInterpreter programInterpreter)
-	{
-		return new Manager.ScriptInterpreter(programInterpreter);
-	}
+	public IJobSentenceIntepreter GetInterpreter(IProgramInterpreter programInterpreter) => new Interpreter.ScriptInterpreter(programInterpreter);
 }

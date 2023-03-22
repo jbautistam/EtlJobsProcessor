@@ -1,27 +1,69 @@
 ﻿namespace Bau.Libraries.LibJobProcessor.Rest.Models.Sentences;
 
 /// <summary>
-///		Sentencia de definición de API
+///		Sentencia de llamada a una API
 /// </summary>
-internal class CallApiSentence : RestBaseSentence
+internal class CallApiSentence : BaseRestSentence
 {
 	/// <summary>
-	///		Dirección de la API
+	///		Método de llamada
 	/// </summary>
-	internal string? Url { get; set; }
+	internal enum MethodType
+	{
+		/// <summary>Desconocido. No se debería utilizar</summary>
+		Unkwnown,
+		/// <summary>Método GET</summary>
+		Get,
+		/// <summary>Método POST</summary>
+		Post,
+		/// <summary>Método PUT</summary>
+		Put,
+		/// <summary>Método DELETE</summary>
+		Delete,
+		/// <summary>Método HEAD</summary>
+		Head,
+		/// <summary>Método OPTIONS</summary>
+		Options
+	}
+
+	internal CallApiSentence(string target, string endPoint, MethodType method) : base(target)
+	{
+		EndPoint = endPoint;
+		Method = method;
+	}
 
 	/// <summary>
-	///		Usuario
+	///		Punto de entrada de la API
 	/// </summary>
-	internal string? User { get; set; }
+	internal string EndPoint { get; }
 
 	/// <summary>
-	///		Contraseña
+	///		Método de llamada a la API
 	/// </summary>
-	internal string? Password { get; set; }
+	internal MethodType Method { get; }
 
 	/// <summary>
-	///		Métodos a los que se debe llamar
+	///		Cabeceras
 	/// </summary>
-	internal List<CallApiMethodSentence> Methods { get; } = new();
+	internal Dictionary<string, string> Headers { get; } = new();
+
+	/// <summary>
+	///		Asignaciones de los datos de la respuesta
+	/// </summary>
+	internal List<CallApiAssignmentSentence> Assignments { get; } = new();
+
+	/// <summary>
+	///		Cuerpo de la llamada a la API
+	/// </summary>
+	internal string Body { get; set; } = default!;
+
+	/// <summary>
+	///		Sentencias que se ejecutan dependiendo de los resultados
+	/// </summary>
+	internal List<CallApiResultSentence> WhenResults { get; } = new();
+
+	/// <summary>
+	///		Sentencias a ejecutar cuando se dan otros resultados
+	/// </summary>
+	internal List<LibInterpreter.Models.Sentences.SentenceBase> Else { get; } = new();
 }

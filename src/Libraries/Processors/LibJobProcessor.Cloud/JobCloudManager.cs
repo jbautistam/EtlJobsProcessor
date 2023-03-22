@@ -5,7 +5,7 @@ using Bau.Libraries.LibJobProcessor.Core.Interfaces.Repository;
 namespace Bau.Libraries.LibJobProcessor.Cloud;
 
 /// <summary>
-///		Procesador de trabajos de base de datos
+///		Procesador de trabajos sobre Azure Blob Storage
 /// </summary>
 public class JobCloudManager : IJobProcessor
 {

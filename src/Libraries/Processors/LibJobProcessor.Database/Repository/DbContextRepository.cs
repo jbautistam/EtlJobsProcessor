@@ -13,12 +13,10 @@ internal class DbContextRepository : IContextRepository
 {
     // Constantes privadas
     private const string TagDataBaseRoot = "Database";
-    private const string TagStorageRoot = "Storage";
     private const string TagKey = "Key";
     private const string TagType = "Type";
     private const string TagName = "Name";
     private const string TagDescription = "Description";
-    private const string TagConnectionString = "ConnectionString";
 
     /// <summary>
     ///		Carga una sentencia del nodo
@@ -28,7 +26,6 @@ internal class DbContextRepository : IContextRepository
         return rootML.Name switch
                     {
                         TagDataBaseRoot => LoadDataBaseConnection(rootML),
-                        TagStorageRoot => LoadStorageConnection(rootML),
                         _ => null
                     };
     }
@@ -57,27 +54,5 @@ internal class DbContextRepository : IContextRepository
                 }
             // Devuelve la conexión
             return connection;
-    }
-
-    /// <summary>
-    ///		Obtiene la conexión a base de datos de un nodo
-    /// </summary>
-    private StorageConnectionModel LoadStorageConnection(MLNode rootML)
-    {
-        return new StorageConnectionModel(rootML.Attributes[TagKey].Value.TrimIgnoreNull(), GetConnectionString(rootML));
-    }
-
-    /// <summary>
-    ///		Obtiene la cadena de conexión del atributo de un nodo o su cuerpo
-    /// </summary>
-    private string GetConnectionString(MLNode rootML)
-    {
-        string result = rootML.Attributes[TagConnectionString].Value.TrimIgnoreNull();
-
-            // Si no se ha recogido ningún valor, recoge el valor del cuerpo
-            if (string.IsNullOrWhiteSpace(result))
-                result = rootML.Value.TrimIgnoreNull();
-            // Devuelve la cadena de conexión
-            return result;
     }
 }

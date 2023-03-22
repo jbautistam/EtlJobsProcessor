@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 	  <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>Bau.Libraries.LibJobProcessor.Rest</RootNamespace>
+    <RootNamespace>Bau.Libraries.$(MSBuildProjectName)</RootNamespace>
+
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -13,8 +14,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\Libraries\Communications\LibHttpClient\LibHttpClient.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\Libraries\Communications\LibRestClient\LibRestClient.csproj" />
     <ProjectReference Include="..\..\LibJobProcessor.Core\LibJobProcessor.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Providers\" />
   </ItemGroup>
 
 </Project>

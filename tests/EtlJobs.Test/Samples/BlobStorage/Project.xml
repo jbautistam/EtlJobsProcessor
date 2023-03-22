@@ -3,52 +3,142 @@
 	<Name>Test files project</Name>
 	<Description>Files project for tests</Description>
 
-	<Block Message="Write a csv file on a csv file">
-		<OpenFile Key ="Products" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "/data/Products.csv" Mode="Read">
-			<OpenFile Key ="ProductsOutput" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "/data/ProductsOutput.csv" Mode="Write">
-				<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
-					<Column Name="ProductId" Type="Integer"/>
-					<Column Name="Name" Type="String"/>
-					<Column Name="Price" Type="Decimal"/>
-					<WriteToCsv Source = "CsvReader" Target = "ProductsOutput" DecimalSeparator =",">
-						<Mapping Source ="Name" Target="ProductCode"/>
-						<Mapping Source ="Price" Target="Euros"/>
-					</WriteToCsv>
-				</OpenCsvReader>
+	<Block Message="Files blobStorage to blobStorage">
+		<Block Message="Write a csv file on a csv file. BlobStorage -> BlobStorage">
+			<OpenFile Key ="Products" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "/data/Products.csv" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "/data/ProductsOutput.csv" Mode="Write">
+					<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+						<Column Name="ProductId" Type="Integer"/>
+						<Column Name="Name" Type="String"/>
+						<Column Name="Price" Type="Decimal"/>
+						<WriteToCsv Source = "CsvReader" Target = "ProductsOutput" DecimalSeparator =",">
+							<Mapping Source ="Name" Target="ProductCode"/>
+							<Mapping Source ="Price" Target="Euros"/>
+						</WriteToCsv>
+					</OpenCsvReader>
+				</OpenFile>
 			</OpenFile>
-		</OpenFile>
+		</Block>
+
+		<Block Message="Write a csv file on a parquet file. BlobStorage -> BlobStorage">
+			<OpenFile Key ="Products" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "{{ProjectWorkPath}}\data\Products.csv" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "{{ProjectWorkPath}}\data\ProductsOutput.parquet" Mode="Write">
+					<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+						<Column Name="ProductId" Type="Integer"/>
+						<Column Name="Name" Type="String"/>
+						<Column Name="Price" Type="Decimal"/>
+						<WriteToParquet Source = "CsvReader" Target = "ProductsOutput"/>
+					</OpenCsvReader>
+				</OpenFile>
+			</OpenFile>
+		</Block>
+
+		<Block Message="Write a parquet file on a csv file. BlobStorage -> BlobStorage">
+			<OpenFile Key ="Products" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "{{ProjectWorkPath}}\data\ProductsOutput.parquet" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "{{ProjectWorkPath}}\data\ProductsOutputFromParquet.csv" Mode="Write">
+					<OpenParquetReader Key = "ParquetReader" Source="Products">
+						<WriteToCsv Source = "ParquetReader" Target = "ProductsOutput" DecimalSeparator =",">
+							<Mapping Source ="ProductId" Target="ProductId"/>
+							<Mapping Source ="Price" Target="Euros"/>
+						</WriteToCsv>
+					</OpenParquetReader>
+				</OpenFile>
+			</OpenFile>
+		</Block>
+	</Block>
+
+	<Block Message="Files blobStorage to desktop">
+		<Block Message="Write a csv file on a csv file. BlobStorage -> Desktop">
+			<OpenFile Key ="Products" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "/data/Products.csv" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\data/ProductsOutput.csv" Mode="Write">
+					<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+						<Column Name="ProductId" Type="Integer"/>
+						<Column Name="Name" Type="String"/>
+						<Column Name="Price" Type="Decimal"/>
+						<WriteToCsv Source = "CsvReader" Target = "ProductsOutput" DecimalSeparator =",">
+							<Mapping Source ="Name" Target="ProductCode"/>
+							<Mapping Source ="Price" Target="Euros"/>
+						</WriteToCsv>
+					</OpenCsvReader>
+				</OpenFile>
+			</OpenFile>
+		</Block>
+
+		<Block Message="Write a csv file on a parquet file. BlobStorage -> Desktop">
+			<OpenFile Key ="Products" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "{{ProjectWorkPath}}\data\Products.csv" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\data\ProductsOutput.parquet" Mode="Write">
+					<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+						<Column Name="ProductId" Type="Integer"/>
+						<Column Name="Name" Type="String"/>
+						<Column Name="Price" Type="Decimal"/>
+						<WriteToParquet Source = "CsvReader" Target = "ProductsOutput"/>
+					</OpenCsvReader>
+				</OpenFile>
+			</OpenFile>
+		</Block>
+
+		<Block Message="Write a parquet file on a csv file. BlobStorage -> Desktop">
+			<OpenFile Key ="Products" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "{{ProjectWorkPath}}\data\ProductsOutput.parquet" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\data\ProductsOutputFromParquet.csv" Mode="Write">
+					<OpenParquetReader Key = "ParquetReader" Source="Products">
+						<WriteToCsv Source = "ParquetReader" Target = "ProductsOutput" DecimalSeparator =",">
+							<Mapping Source ="ProductId" Target="ProductId"/>
+							<Mapping Source ="Price" Target="Euros"/>
+						</WriteToCsv>
+					</OpenParquetReader>
+				</OpenFile>
+			</OpenFile>
+		</Block>
+	</Block>
+
+	<Block Message="Files desktop to blobStorage">
+		<Block Message="Write a csv file on a csv file. Desktop -> BlobStorage">
+			<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}/data/Products.csv" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "/data/ProductsOutputDesktop.csv" Mode="Write">
+					<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+						<Column Name="ProductId" Type="Integer"/>
+						<Column Name="Name" Type="String"/>
+						<Column Name="Price" Type="Decimal"/>
+						<WriteToCsv Source = "CsvReader" Target = "ProductsOutput" DecimalSeparator =",">
+							<Mapping Source ="Name" Target="ProductCode"/>
+							<Mapping Source ="Price" Target="Euros"/>
+						</WriteToCsv>
+					</OpenCsvReader>
+				</OpenFile>
+			</OpenFile>
+		</Block>
+
+		<Block Message="Write a csv file on a parquet file. Desktop -> BlobStorage">
+			<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\data\Products.csv" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "{{ProjectWorkPath}}\data\ProductsOutputDesktop.parquet" Mode="Write">
+					<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+						<Column Name="ProductId" Type="Integer"/>
+						<Column Name="Name" Type="String"/>
+						<Column Name="Price" Type="Decimal"/>
+						<WriteToParquet Source = "CsvReader" Target = "ProductsOutput"/>
+					</OpenCsvReader>
+				</OpenFile>
+			</OpenFile>
+		</Block>
+
+		<Block Message="Write a parquet file on a csv file. BlobStorage -> BlobStorage">
+			<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\data\ProductsOutput.parquet" Mode="Read">
+				<OpenFile Key ="ProductsOutput" ProviderFile = "BlobStorage" ProviderFileKey="StorageData" FileName = "{{ProjectWorkPath}}\data\ProductsOutputFromParquetDesktop.csv" Mode="Write">
+					<OpenParquetReader Key = "ParquetReader" Source="Products">
+						<WriteToCsv Source = "ParquetReader" Target = "ProductsOutput" DecimalSeparator =",">
+							<Mapping Source ="ProductId" Target="ProductId"/>
+							<Mapping Source ="Price" Target="Euros"/>
+						</WriteToCsv>
+					</OpenParquetReader>
+				</OpenFile>
+			</OpenFile>
+		</Block>
 	</Block>
 
 	<!--
-	<Block Message="Write a csv file on a parquet file">
-		<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\Products.csv" Mode="Read">
-			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.parquet" Mode="Write">
-				<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
-					<Column Name="ProductId" Type="Integer"/>
-					<Column Name="Name" Type="String"/>
-					<Column Name="Price" Type="Decimal"/>
-					<WriteToParquet Source = "CsvReader" Target = "ProductsOutput"/>
-				</OpenCsvReader>
-			</OpenFile>
-		</OpenFile>
-	</Block>
-
-	<Block Message="Write a parquet file on a csv file">
-		<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.parquet" Mode="Read">
-			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutputFromParquet.csv" Mode="Write">
-				<OpenParquetReader Key = "ParquetReader" Source="Products">
-					<WriteToCsv Source = "ParquetReader" Target = "ProductsOutput" DecimalSeparator =",">
-						<Mapping Source ="ProductId" Target="ProductId"/>
-						<Mapping Source ="Price" Target="Euros"/>
-					</WriteToCsv>
-				</OpenParquetReader>
-			</OpenFile>
-		</OpenFile>
-	</Block>
-
 	<Block Message="Write a csv file on a Excel file">
-		<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\Products.csv" Mode="Read">
-			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.xlsx" Mode="Write">
+		<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\data\Products.csv" Mode="Read">
+			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\data\ProductsOutput.xlsx" Mode="Write">
 				<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
 					<Column Name="ProductId" Type="Integer"/>
 					<Column Name="Name" Type="String"/>

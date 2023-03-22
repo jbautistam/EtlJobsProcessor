@@ -3,4 +3,16 @@
 	<Name>Test rest project</Name>
 	<Description>Rest project for tests</Description>
 
+	<Block Message ="Get collections">
+		<CallApi Target="MetMuseum" EndPoint="/public/collection/v1/departments" Method ="Get">
+			<Header Name="User-Agent" Value="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0"/>
+			<Assign Type="Body" Variable="Body"/>
+			<WhenResult From="200" To ="200">
+				<Print Message="Body downloaded: {{Body}}"/>
+			</WhenResult>
+			<Else>
+				<Exception Message="Error when call api"/>
+			</Else>
+		</CallApi>
+	</Block>
 </EtlProject>

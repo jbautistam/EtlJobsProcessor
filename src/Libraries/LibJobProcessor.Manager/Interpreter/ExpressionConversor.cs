@@ -92,14 +92,14 @@ internal class ExpressionConversor
 										"<=" => new ExpressionOperatorLogical(ExpressionOperatorLogical.LogicalType.LessOrEqual),
 										"==" => new ExpressionOperatorLogical(ExpressionOperatorLogical.LogicalType.Equal),
 										"!=" => new ExpressionOperatorLogical(ExpressionOperatorLogical.LogicalType.Distinct),
-										_ => new ExpressionError($"Uknown logical operator: {token.Value}")
+										_ => new ExpressionError($"Unknown logical operator: {token.Value}")
 									},
 				TokenRelational => token.Value switch
 									{
 										"||" => new ExpressionOperatorRelational(ExpressionOperatorRelational.RelationalType.Or),
 										"&&" => new ExpressionOperatorRelational(ExpressionOperatorRelational.RelationalType.And),
 										"!" => new ExpressionOperatorRelational(ExpressionOperatorRelational.RelationalType.Not),
-										_ => new ExpressionError($"Uknown relational operator: {token.Value}")
+										_ => new ExpressionError($"Unknown relational operator: {token.Value}")
 									},
 				TokenMath => token.Value switch
 									{ 
@@ -110,7 +110,7 @@ internal class ExpressionConversor
 										"*" => new ExpressionOperatorMath(ExpressionOperatorMath.MathType.Multiply), 
 										"/" => new ExpressionOperatorMath(ExpressionOperatorMath.MathType.Divide), 
 										"%" => new ExpressionOperatorMath(ExpressionOperatorMath.MathType.Modulus), 
-										_ => new ExpressionError($"Unknow math operator: {token.Value}")
+										_ => new ExpressionError($"Unknown math operator: {token.Value}")
 									},
 				_ => new ExpressionError($"Token unknown: {token.Value}")
 			};
