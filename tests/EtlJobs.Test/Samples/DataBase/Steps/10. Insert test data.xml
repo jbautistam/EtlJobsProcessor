@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlProject>
+	<Block Message="Delete old data">
+		<Execute Target="Sales">
+			<![CDATA[
+				DELETE FROM Sales;
+				DELETE FROM Products;
+				DELETE FROM Stores;
+			]]>
+		</Execute>
+	</Block>
+
+	<Block Message="Insert stores">
+		<For Variable ="Index" Start="1" End="50">
+			<Print>Inserting store {{Index}}</Print>
+			<Execute Target="Sales">
+				<![CDATA[
+					INSERT INTO Stores (Name)
+						VALUES ('Store {{Index}}');
+				]]>
+			</Execute>
+		</For>
+	</Block>
+
+	<Block Message="Insert products">
+		<For Variable ="Index" Start="1" End="300">
+			<Print>Inserting product {{Index}}</Print>
+			<Execute Target="Sales">
+				<![CDATA[
+					INSERT INTO Products (Name, Price)
+						VALUES ('Product {{Index}}', 100 * abs(1.0 * random() / (random() + 1)));
+				]]>
+			</Execute>
+		</For>
+	</Block>
+
+	<Block Message = "Insert sales">
+		<For Variable = "Index" Type = "Date" Start = "{{StartDate}}" End = "{{EndDate}}">
+			<Print>Inserting sale {{Index}}</Print>
+			<Execute Target = "Sales">
+				<Parameter Name = "SaleDate" Type = "DateTime" Variable = "Index" />
+				<Command>
+					<![CDATA[
+						INSERT INTO Sales (StoreId, ProductId, Date, Units, Price)
+							SELECT tmpRandom.StoreId, tmpRandom.ProductId, 
+								   @SaleDate, CAST(10 + -10 * abs(1.0 * random() / (random() + 1)) AS int) AS Units,
+								   tmpRandom.Price + 10 * abs(1.0 * random() / (random() + 1)) AS Price
+								FROM ((SELECT StoreId
+											FROM Stores
+											ORDER BY random()
+											LIMIT 150) AS tmpStores
+									  CROSS JOIN
+									  (SELECT ProductId, Price
+											FROM Products
+											ORDER BY random()
+											LIMIT 100) AS tmpProducts
+									 ) AS tmpRandom;
+					]]>
+				</Command>
+			</Execute>
+		</For>
+	</Block>
+</EtlProject>

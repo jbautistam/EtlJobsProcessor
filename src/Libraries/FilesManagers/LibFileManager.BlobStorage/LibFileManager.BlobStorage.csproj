@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Bau.Libraries.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Bau.Libraries.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\Libraries\Cloud\LibCloudStorage\src\LibBlobStorage\LibBlobStorage.csproj" />
+    <ProjectReference Include="..\..\LibJobProcessor.Core\LibJobProcessor.Core.csproj" />
+  </ItemGroup>
+
+</Project>

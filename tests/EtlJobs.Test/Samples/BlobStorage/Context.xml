@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlContext>
+	<Parameter Key="CompanyId" Type="numeric" Value="45" />
+	<Cloud Key = "StorageJobs" Container ="etljobs">
+		UseDevelopmentStorage=true;
+	</Cloud>
+	<Cloud Key = "StorageData" Container ="testfiles">
+		UseDevelopmentStorage=true;
+	</Cloud>
+</EtlContext>

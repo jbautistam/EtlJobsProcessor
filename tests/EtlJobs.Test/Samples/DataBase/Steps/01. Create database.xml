@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlProject>
+	<Block Message="Create Sales database tables">
+		<Execute Target="Sales">
+			<![CDATA[
+				CREATE TABLE IF NOT EXISTS [Products]
+					(
+						[ProductId] INTEGER NOT NULL,
+						[Name] nvarchar(200) NOT NULL,
+						[Price] REAL NOT NULL,
+						CONSTRAINT [PK_Products] PRIMARY KEY ([ProductId])
+					);
+
+				CREATE TABLE IF NOT EXISTS [Sales]
+					(
+						[SaleId] INTEGER NOT NULL,
+						[StoreId] INTEGER NOT NULL,
+						[ProductId] INTEGER NOT NULL,
+						[Date] [datetime] NOT NULL,
+						[Units] INTEGER NOT NULL,
+						[Price] REAL NOT NULL,
+						CONSTRAINT [PK_Sales] PRIMARY KEY ([SaleId])
+					);
+
+				CREATE TABLE IF NOT EXISTS [Stores]
+					(
+						[StoreId] INTEGER NOT NULL,
+						[Name] nvarchar(200) NOT NULL,
+						CONSTRAINT [PK_Stores] PRIMARY KEY ([StoreId])
+					);
+			]]>
+		</Execute>
+	</Block>
+</EtlProject>

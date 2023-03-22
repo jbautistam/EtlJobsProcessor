@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlProject>
+	<Block Message="Create tables Northwind on sales">
+		<Execute Target="Sales">
+			<![CDATA[
+				DROP TABLE IF EXISTS [Employees];
+
+				CREATE TABLE [Employees] (
+				[EmployeeID] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
+				, [LastName] nvarchar(20) NOT NULL COLLATE NOCASE
+				, [FirstName] nvarchar(10) NOT NULL COLLATE NOCASE
+				, [Title] nvarchar(30) NULL COLLATE NOCASE
+				, [TitleOfCourtesy] nvarchar(25) NULL COLLATE NOCASE
+				, [BirthDate] datetime NULL
+				, [HireDate] datetime NULL
+				, [Address] nvarchar(60) NULL COLLATE NOCASE
+				, [City] nvarchar(15) NULL COLLATE NOCASE
+				, [Region] nvarchar(15) NULL COLLATE NOCASE
+				, [PostalCode] nvarchar(10) NULL COLLATE NOCASE
+				, [Country] nvarchar(15) NULL COLLATE NOCASE
+				, [HomePhone] nvarchar(24) NULL COLLATE NOCASE
+				, [Extension] nvarchar(4) NULL COLLATE NOCASE
+				, [Photo] image NULL
+				, [Notes] ntext NULL
+				, [ReportsTo] int NULL
+				, [PhotoPath] nvarchar(255) NULL COLLATE NOCASE
+				, CONSTRAINT [FK_Employees_0_0]
+				);
+
+				DROP TABLE IF EXISTS [Customers];
+
+				CREATE TABLE [Customers] (
+				[CustomerIDCopy] nchar(5) NOT NULL COLLATE NOCASE
+				, [CompanyNameCopy] nvarchar(40) NOT NULL COLLATE NOCASE
+				, [ContactNameCopy] nvarchar(30) NULL COLLATE NOCASE
+				, [ContactTitleCopy] nvarchar(30) NULL COLLATE NOCASE
+				, [AddressCopy] nvarchar(60) NULL COLLATE NOCASE
+				, [PostalCodeCopy] nvarchar(10) NULL COLLATE NOCASE
+				, [CountryCopy] nvarchar(15) NULL COLLATE NOCASE
+				, [PhoneCopy] nvarchar(24) NULL COLLATE NOCASE
+				, [FaxCopy] nvarchar(24) NULL COLLATE NOCASE
+				, CONSTRAINT [sqlite_autoindex_Customers_1] PRIMARY KEY ([CustomerIDCopy])
+				);
+			]]>
+		</Execute>
+	</Block>
+
+	<Block Message="Copying employees">
+		<BulkCopy Source="Northwind" Target="Sales" Table="Employees">
+			<![CDATA[
+				SELECT EmployeeID, LastName, FirstName, Title, TitleOfCourtesy, BirthDate, HireDate, Address, City,
+						Region, PostalCode, Country, HomePhone, Extension, Photo, Notes, ReportsTo, PhotoPath
+					FROM Employees
+			]]>
+		</BulkCopy>
+	</Block>
+
+	<Block Message="Copying customers">
+		<BulkCopy Source="Northwind" Target="Sales" Table="Customers" BatchSize ="3">
+			<Mapping Source = "CustomerID" Target = "CustomerIDCopy" />
+			<Mapping Source = "CompanyName" Target = "CompanyNameCopy" />
+			<Mapping Source = "ContactName" Target = "ContactNameCopy" />
+			<Mapping Source = "ContactTitle" Target = "ContactTitleCopy" />
+			<Mapping Source = "Address" Target = "AddressCopy" />
+			<Mapping Source = "PostalCode" Target = "PostalCodeCopy" />
+			<Mapping Source = "Country" Target = "CountryCopy" />
+			<Mapping Source = "Phone" Target = "PhoneCopy" />
+			<Mapping Source = "Fax" Target = "FaxCopy" />
+			<Command>
+				<![CDATA[
+					SELECT CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode, Country, Phone, Fax
+						FROM Customers
+				]]>
+			</Command>
+		</BulkCopy>
+	</Block>
+</EtlProject>

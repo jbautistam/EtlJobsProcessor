@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EtlProject>
+	<Block Message = "Sample 1">
+		<Block Message = "Inner sample 1"/>
+	</Block>
+</EtlProject>

@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<RootNamespace>Bau.Libraries.LibJobProcessor.Core</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Models\Errors\**" />
+	  <EmbeddedResource Remove="Models\Errors\**" />
+	  <None Remove="Models\Errors\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Interfaces\BaseJobProcessor.cs" />
+		<Compile Remove="Models\Jobs\JobModel.cs" />
+		<Compile Remove="Models\Jobs\JobStepModel.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\..\..\Libraries\Common\LibDataStructures\src\LibDataStructures.csproj" />
+		<ProjectReference Include="..\..\..\..\..\..\Libraries\Common\LibHelper\src\LibHelper.csproj" />
+		<ProjectReference Include="..\..\..\..\..\..\Libraries\Common\LibMarkup\src\LibMarkup.csproj" />
+		<ProjectReference Include="..\..\..\..\..\..\Libraries\Interpreter\Core\src\LibInterpreter.Interpreter\LibInterpreter.Interpreter.csproj" />
+		<ProjectReference Include="..\..\..\..\..\..\Libraries\Interpreter\Core\src\LibInterpreter.Models\LibInterpreter.Models.csproj" />
+	</ItemGroup>
+
+</Project>

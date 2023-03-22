@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<RootNamespace>Bau.Libraries.LibJobProcessor.Manager</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\..\..\Libraries\Common\LibMarkup\src\LibMarkup.csproj" />
+		<ProjectReference Include="..\..\..\..\..\..\Libraries\Interpreter\Core\src\LibInterpreter.Lexer\LibInterpreter.Lexer.csproj" />
+		<ProjectReference Include="..\LibJobProcessor.Core\LibJobProcessor.Core.csproj" />
+	</ItemGroup>
+
+</Project>

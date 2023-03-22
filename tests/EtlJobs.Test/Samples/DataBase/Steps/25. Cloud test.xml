@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlProject>
+	<Block Message="Subiendo a blob los archivos de Output">
+		<Upload Target="ST" FileName="{{ClientFiles}}/Output/Products.csv" Container="TestStorageLibrary" Blob="Products.csv"/>
+		<Upload Target="ST" FileName="{{ClientFiles}}/Output/Sales.csv" Container="TestStorageLibrary" Blob="Sales.csv"/>
+		<Upload Target="ST" FileName="{{ClientFiles}}/Output/SalesGroupedByStore.csv" Container="TestStorageLibrary" Blob="SalesGroupedByStore.csv"/>
+		<Upload Target="ST" FileName="{{ClientFiles}}/Output/Stores.csv" Container="TestStorageLibrary" Blob="Stores.csv"/>
+	</Block>
+
+	<Block Message="Descargando de blob Sales.csv a Sales_Output.csv">
+		<Download Source="ST" FileName="{{ClientFiles}}/Downloaded/Products.csv" Container="TestStorageLibrary" Blob="Products.csv"/>
+		<Download Source="ST" FileName="{{ClientFiles}}/Downloaded/Sales.csv" Container="TestStorageLibrary" Blob="Sales.csv"/>
+		<Download Source="ST" FileName="{{ClientFiles}}/Downloaded/SalesGroupedByStore.csv" Container="TestStorageLibrary" Blob="SalesGroupedByStore.csv"/>
+		<Download Source="ST" FileName="{{ClientFiles}}/Downloaded/Stores.csv" Container="TestStorageLibrary" Blob="Stores.csv"/>
+	</Block>
+
+	<Block Message="Copiando blobs de TestStorageLibrary a TestStorageProcessed">
+		<Copy Source="ST">
+			<From Container="TestStorageLibrary" Blob="Products.csv" />
+			<To Container="TestStorageLibraryBackup" Blob="Products.csv" />
+		</Copy>
+		<Move Source="ST">
+			<From Container="TestStorageLibrary" Blob="Sales.csv" />
+			<To Container="TestStorageLibraryBackup" Blob="Sales.csv" />
+		</Move>
+		<Copy Source="ST" TransformFileName="true">
+			<From Container="TestStorageLibrary" Blob="SalesGroupedByStore.csv" />
+			<To Container="TestStorageLibraryBackup" Blob="SalesGroupedByStore.csv" />
+		</Copy>
+		<Move Source="ST" TransformFileName="true">
+			<From Container="TestStorageLibrary" Blob="Stores.csv" />
+			<To Container="TestStorageLibraryBackup" Blob="Stores.csv" />
+		</Move>
+	</Block>
+</EtlProject>

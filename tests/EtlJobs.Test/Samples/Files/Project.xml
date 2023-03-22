@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlProject>
+	<Name>Test files project</Name>
+	<Description>Files project for tests</Description>
+
+	<Block Message="Write a csv file on a csv file">
+		<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\Products.csv" Mode="Read">
+			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.csv" Mode="Write">
+				<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+					<Column Name="ProductId" Type="Integer"/>
+					<Column Name="Name" Type="String"/>
+					<Column Name="Price" Type="Decimal"/>
+					<WriteToCsv Source = "CsvReader" Target = "ProductsOutput" DecimalSeparator =",">
+						<Mapping Source ="Name" Target="ProductCode"/>
+						<Mapping Source ="Price" Target="Euros"/>
+					</WriteToCsv>
+				</OpenCsvReader>
+			</OpenFile>
+		</OpenFile>
+	</Block>
+
+	<Block Message="Write a csv file on a parquet file">
+		<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\Products.csv" Mode="Read">
+			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.parquet" Mode="Write">
+				<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+					<Column Name="ProductId" Type="Integer"/>
+					<Column Name="Name" Type="String"/>
+					<Column Name="Price" Type="Decimal"/>
+					<WriteToParquet Source = "CsvReader" Target = "ProductsOutput"/>
+				</OpenCsvReader>
+			</OpenFile>
+		</OpenFile>
+	</Block>
+
+	<Block Message="Write a parquet file on a csv file">
+		<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.parquet" Mode="Read">
+			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutputFromParquet.csv" Mode="Write">
+				<OpenParquetReader Key = "ParquetReader" Source="Products">
+					<WriteToCsv Source = "ParquetReader" Target = "ProductsOutput" DecimalSeparator =",">
+						<Mapping Source ="ProductId" Target="ProductId"/>
+						<Mapping Source ="Price" Target="Euros"/>
+					</WriteToCsv>
+				</OpenParquetReader>
+			</OpenFile>
+		</OpenFile>
+	</Block>
+
+	<!--
+	<Block Message="Write a csv file on a Excel file">
+		<OpenFile Key ="Products" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\Products.csv" Mode="Read">
+			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.xlsx" Mode="Write">
+				<OpenCsvReader Key = "CsvReader" Source="Products" Separator = ";">
+					<Column Name="ProductId" Type="Integer"/>
+					<Column Name="Name" Type="String"/>
+					<Column Name="Price" Type="Decimal"/>
+					<WriteToExcel Source = "CsvReader" Target = "ProductsOutput" />
+				</OpenCsvReader>
+			</OpenFile>
+		</OpenFile>
+	</Block>
+	-->
+</EtlProject>

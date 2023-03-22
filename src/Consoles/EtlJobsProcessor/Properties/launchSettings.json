@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EtlJobsProcessor": {
+      "commandName": "Project",
+      "commandLineArgs": "--Project D:\\Projects\\Personal\\Development\\NewNet\\Applications\\Consoles\\EtlJobsProcessor\\tests\\EtlJobs.Test\\Samples\\DataBase\\Project.xml --Context D:\\Projects\\Personal\\Development\\NewNet\\Applications\\Consoles\\EtlJobsProcessor\\tests\\EtlJobs.Test\\Samples\\DataBase\\Context.xml"
+    }
+  }
+}

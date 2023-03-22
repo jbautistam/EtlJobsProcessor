@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlContext>
+	<Parameter Key="CompanyId" Type="numeric" Value="45" />
+	<Parameter Key="StartDate" Type="DateTime" Value="2020-01-03"/>
+	<Parameter Key="EndDate" Type="DateTime" Value="2020-01-13"/>
+	<Database Key="Sales" Type="SqLite">
+		<Name>SqLite - Conexión a la base de datos Sales</Name>
+		<Filename>{{ProjectWorkPath}}\Data\Sales.db3</Filename>
+		<Mode>ReadWriteCreate</Mode>
+	</Database>
+	<Database Key="Northwind" Type="SqLite">
+		<Name>SqLite - Conexión a la base de datos Northwind</Name>
+		<Filename>{{ProjectWorkPath}}\Data\Northwind.db3</Filename>
+		<Mode>ReadWrite</Mode>
+	</Database>
+</EtlContext>

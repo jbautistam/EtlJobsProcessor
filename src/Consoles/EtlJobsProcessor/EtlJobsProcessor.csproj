@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Libraries\FilesManagers\LibFileManager.BlobStorage\LibFileManager.BlobStorage.csproj" />
+	  <ProjectReference Include="..\..\Libraries\FilesManagers\LibFileManager.Desktop\LibFileManager.Desktop.csproj" />
+	  <ProjectReference Include="..\..\Libraries\LibJobProcessor.Manager\LibJobProcessor.Manager.csproj" />
+	  <ProjectReference Include="..\..\Libraries\Processors\LibJobProcessor.Cloud\LibJobProcessor.Cloud.csproj" />
+	  <ProjectReference Include="..\..\Libraries\Processors\LibJobProcessor.Database\LibJobProcessor.Database.csproj" />
+	  <ProjectReference Include="..\..\Libraries\Processors\LibJobProcessor.FilesShell\LibJobProcessor.FilesShell.csproj" />
+	  <ProjectReference Include="..\..\Libraries\Processors\LibJobProcessor.FilesStructured\LibJobProcessor.FilesStructured.csproj" />
+	  <ProjectReference Include="..\..\Libraries\Processors\LibJobProcessor.Rest\LibJobProcessor.Rest.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EtlProject>
+	<Name>Sample</Name>
+	<Description>Project sample</Description>
+	<Block Message="Project 1">
+		<Import File="Steps/Step1.xml" />
+		<Block Message = "Project 1.1" />
+	</Block>
+</EtlProject>

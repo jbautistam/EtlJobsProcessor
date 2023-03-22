@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlProject>
+	<Name>Test database project</Name>
+	<Description>Database project for tests</Description>
+
+	<Block Message="Delete files">
+		<Delete ProviderFile = "Desktop" Path= "{{ProjectWorkPath}}\Data\Sales.db3" />
+	</Block>
+
+	<Block Message="Import tables">
+		<Import FileName = "Steps/01. Create database.xml"/>
+	</Block>
+
+	<Block Message="Copy data">
+		<Import FileName = "Steps/05. Copy from Northwind.xml"/>
+	</Block>
+
+	<Block Message="Create test data">
+		<Import FileName = "Steps/10. Insert test data.xml"/>
+		<ExecuteScript ProviderFile = "Desktop" Target = "Sales" FileName = "{{ProjectWorkPath}}/Steps/15. Create sales grouped.sql" MustParse = "True" SkipParameters = "False" />
+	</Block>
+
+	<Block Message = "Exporting data">
+		<OpenSqlReader Key = "DbProducts" Source = "Sales">
+			<Command>
+				SELECT ProductId, Name, Price
+					FROM Products;
+			</Command>
+			<OpenFile Key ="ProductsOutput" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.parquet" Mode="Write">
+				<WriteToParquet Source = "DbProducts" Target ="ProductsOutput" />
+			</OpenFile>
+		</OpenSqlReader>
+	</Block>
+
+	<Block Message = "Importing data">
+		<!-- Crea la tabla donde se van a copiar los datos -->
+		<Execute Target="Sales">
+			<![CDATA[
+				CREATE TABLE IF NOT EXISTS [ProductsFromParquet]
+				(
+					[ProductId] INTEGER NOT NULL,
+					[Name] nvarchar(200) NOT NULL,
+					[Price] REAL NOT NULL,
+					CONSTRAINT [PK_ProductsFromParquet] PRIMARY KEY ([ProductId])
+				);
+
+				DELETE FROM [ProductsFromParquet];
+			]]>
+		</Execute>
+		<!-- Copia los datos del archivo Parquet creado anteriormente -->
+		<OpenFile Key ="ProductsParquet" ProviderFile = "Desktop" FileName = "{{ProjectWorkPath}}\Data\ProductsOutput.parquet" Mode="Read">
+			<OpenParquetReader Key = "ParquetReader" Source="ProductsParquet">
+				<WriteToDatabase Source ="ParquetReader" Target ="Sales" Table = "ProductsFromParquet" BatchSize ="30000"/>
+			</OpenParquetReader>
+		</OpenFile>
+	</Block>
+</EtlProject>

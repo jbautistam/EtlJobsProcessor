@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EtlContext>
+	<RestContext Key="TestServer" Url="https://hotels4.p.rapidapi.com/v2/get-meta-data"/>
+</EtlContext>

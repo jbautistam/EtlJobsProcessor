@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>Bau.Libraries.LibJobProcessor.Database</RootNamespace>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interpreter\FileControllers\**" />
+    <Compile Remove="Models\Sentences\Csv\**" />
+    <Compile Remove="Models\Sentences\Files\**" />
+    <Compile Remove="Models\Sentences\Parquet\**" />
+    <EmbeddedResource Remove="Interpreter\FileControllers\**" />
+    <EmbeddedResource Remove="Models\Sentences\Csv\**" />
+    <EmbeddedResource Remove="Models\Sentences\Files\**" />
+    <EmbeddedResource Remove="Models\Sentences\Parquet\**" />
+    <None Remove="Interpreter\FileControllers\**" />
+    <None Remove="Models\Sentences\Csv\**" />
+    <None Remove="Models\Sentences\Files\**" />
+    <None Remove="Models\Sentences\Parquet\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Sentences\Parameters\ProviderCommandModel.cs" />
+    <Compile Remove="Models\Sentences\ProgramModel.cs" />
+    <Compile Remove="Models\Sentences\SentenceCopy.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\Libraries\DataBase\DbScripts\LibDbScripts.Parser\LibDbScripts.Parser.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\Libraries\DataBase\src\DbAggregator\DbAggregator.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\Libraries\Interpreter\Core\src\LibInterpreter.Interpreter\LibInterpreter.Interpreter.csproj" />
+    <ProjectReference Include="..\..\LibJobProcessor.Core\LibJobProcessor.Core.csproj" />
+  </ItemGroup>
+
+</Project>
