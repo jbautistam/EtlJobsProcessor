@@ -5,7 +5,7 @@ using Bau.Libraries.LibRestClient.Security;
 namespace Bau.Libraries.LibJobProcessor.Rest.Interpreter;
 
 /// <summary>
-///		Manager con los proveedores
+///		Manager con los proveedores de WebApi
 /// </summary>
 internal class RestProvidersCache
 {
