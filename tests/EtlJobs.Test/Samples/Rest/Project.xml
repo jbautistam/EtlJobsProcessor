@@ -3,7 +3,7 @@
 	<Name>Test rest project</Name>
 	<Description>Rest project for tests</Description>
 
-	<Block Message ="Get collections">
+	<Block Message ="Get departments MET">
 		<CallApi Target="MetMuseum" EndPoint="/public/collection/v1/departments" Method ="Get">
 			<Header Name="User-Agent" Value="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0"/>
 			<Assign Type="Body" Variable="Body"/>
@@ -14,5 +14,33 @@
 				<Exception Message="Error when call api"/>
 			</Else>
 		</CallApi>
+	</Block>
+
+	<Block Message ="Get weather data">
+		<CallApi Target="Weather" EndPoint="/stats" Method ="Get">
+			<Header Name="User-Agent" Value="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0"/>
+			<Assign Type="Body" Variable="Body"/>
+			<WhenResult From="200" To ="200">
+				<Print Message="Body downloaded: {{Body}}"/>
+			</WhenResult>
+			<Else>
+				<Exception Message="Error when call api"/>
+			</Else>
+		</CallApi>
+	</Block>
+
+	<Block Message ="Get objects data MET">
+		<For Variable="ObjectId" Start="{{MetObjectId}}" End="{{MetObjectId}} + 3">
+			<CallApi Target="MetMuseum" EndPoint="/public/collection/v1/objects/{{ObjectId}}" Method ="Get">
+				<Header Name="User-Agent" Value="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0"/>
+				<Assign Type="Body" Variable="Body"/>
+				<WhenResult From="200" To ="200">
+					<Print Message="Body downloaded: {{Body}}"/>
+				</WhenResult>
+				<Else>
+					<Exception Message="Error when call api"/>
+				</Else>
+			</CallApi>
+		</For>
 	</Block>
 </EtlProject>

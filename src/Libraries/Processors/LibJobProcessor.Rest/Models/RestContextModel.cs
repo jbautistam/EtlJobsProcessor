@@ -11,4 +11,9 @@ public class RestContextModel : Core.Models.Jobs.JobContextModel
 	///		Url de conexión
 	/// </summary>
 	public string Url { get; }
+
+	/// <summary>
+	///		Datos de seguridad
+	/// </summary>
+	public RestContextSecurityModel Security { get; } = new();
 }

@@ -1,4 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <EtlContext>
+	<Parameter Key="MetObjectId" Type="Numeric" Value ="45734"/>
+
 	<RestContext Key="MetMuseum" Url="https://collectionapi.metmuseum.org"/>
+	<RestContext Key="Weather" Url="https://api.opensensemap.org"/>
+
+	<RestContext Key="TestBasicSecurity" Url="https://api.opensensemap.org">
+		<SecurityBasic User ="UserContent" Password="PasswordContent"/>
+	</RestContext>
+
+	<RestContext Key="TestApiKeySecurity" Url="https://api.opensensemap.org">
+		<SecurityApiKey ApiKey="ApiKeyContent"/>
+	</RestContext>
+
+	<RestContext Key="TestJwtSecurity" Url="https://api.opensensemap.org">
+		<SecurityJwt UrlAuthority="UrlAuthorityContent" ClientId ="ClientIdContent" ClientSecret ="ClientSecretContent" Scopes ="ScopesContent"/>
+	</RestContext>
 </EtlContext>

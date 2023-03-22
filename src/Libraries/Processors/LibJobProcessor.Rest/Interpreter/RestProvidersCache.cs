@@ -1,5 +1,6 @@
 ﻿using Bau.Libraries.LibJobProcessor.Rest.Models;
 using Bau.Libraries.LibRestClient;
+using Bau.Libraries.LibRestClient.Security;
 
 namespace Bau.Libraries.LibJobProcessor.Rest.Interpreter;
 
@@ -53,7 +54,27 @@ internal class RestProvidersCache
 	/// </summary>
 	private RestConnection CreateRestConnection(RestContextModel context)
 	{
-		return new RestConnection(new Uri(context.Url), null);
+		return new RestConnection(new Uri(context.Url), GetSecurity(context));
+	}
+
+	/// <summary>
+	///		Obtiene la seguridad que se tiene que aplicar a las llamadas Rest
+	/// </summary>
+	private ISecurity? GetSecurity(RestContextModel context)
+	{
+		return context.Security.Type switch
+				{
+					RestContextSecurityModel.SecurityType.Basic => new LibRestClient.Security.Basic.BasicSecurity(context.Security.GetParameter(RestContextSecurityModel.User),
+																													context.Security.GetParameter(RestContextSecurityModel.Password)),	
+					RestContextSecurityModel.SecurityType.ApiKey => new LibRestClient.Security.ApiKey.ApiKeySecurity(context.Security.GetParameter(RestContextSecurityModel.ApiKey)),	
+					RestContextSecurityModel.SecurityType.Jwt => new LibRestClient.Security.Jwt.JwtSecurity
+																		(new LibRestClient.Security.Jwt.JwtCredentials(context.Security.GetParameter(RestContextSecurityModel.UrlAuthority),
+																														context.Security.GetParameter(RestContextSecurityModel.ClientId),
+																														context.Security.GetParameter(RestContextSecurityModel.ClientSecret),
+																														context.Security.GetParameter(RestContextSecurityModel.Scopes))
+																		),
+					_ => null
+				};
 	}
 
 	/// <summary>

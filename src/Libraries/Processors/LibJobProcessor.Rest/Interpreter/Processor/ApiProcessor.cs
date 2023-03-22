@@ -52,6 +52,8 @@ internal class ApiProcessor
 				request.Headers.Add(Interpreter.ApplyVariables(header.Key), Interpreter.ApplyVariables(header.Value));
 			// Asigna el contenido
 			request.Content = Interpreter.ApplyVariables(sentence.Body);
+			// Log
+			Interpreter.LogDebug($"Call to: {request.EndPoint}");
 			// Devuelve la solicitud
 			return request;
 

@@ -7,7 +7,7 @@ using Bau.Libraries.LibJobProcessor.Core.Interfaces.Repository;
 namespace Bau.Libraries.LibJobProcessor.Rest.Repository;
 
 /// <summary>
-///		Clase para cargar datos de proceso
+///		Clase para cargar datos de proceso Rest
 /// </summary>
 internal class JobRestRepository : BaseJobRepository
 {
